@@ -1,0 +1,17 @@
+{
+  "extends": "./configs/base.tsconfig",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "ecore-editor-extension": [
+        "coffee-editor-extension/src/*"
+      ]
+    }
+  },
+  "include": [
+    "ecore-editor-extension/src"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
