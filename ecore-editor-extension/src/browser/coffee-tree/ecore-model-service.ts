@@ -13,7 +13,7 @@ import { JsonSchema7, UISchemaElement } from '@jsonforms/core';
 import { ILogger } from '@theia/core';
 import { inject, injectable } from 'inversify';
 
-import { CoffeeModel } from './coffee-model';
+import { EcoreModel } from './ecore-model';
 import {
     epackageView,
     eclassView,
@@ -23,7 +23,7 @@ import {
     eattributeView,
     automaticTaskView,
     brewingView,
-    coffeeSchema,
+    ecoreSchema,
     controlUnitView,
     decisionView,
     dipTrayView,
@@ -34,11 +34,11 @@ import {
     waterTankView,
     weightedFlowView,
     workflowView
-} from './coffee-schemas';
+} from './ecore-schemas';
 import { Resolver } from './resolver';
 
 @injectable()
-export class CoffeeModelService implements TreeEditor.ModelService {
+export class EcoreModelService implements TreeEditor.ModelService {
     constructor(@inject(ILogger) private readonly logger: ILogger,
                 @inject(Resolver) private readonly resolver : Resolver) {}
 
@@ -62,7 +62,7 @@ export class CoffeeModelService implements TreeEditor.ModelService {
 
     getSchemaForNode(node: TreeEditor.Node): JsonSchema7 {
         return {
-            definitions: coffeeSchema.definitions,
+            definitions: ecoreSchema.definitions,
             ...this.getSubSchemaForNode(node)
         };
     }
@@ -74,7 +74,7 @@ export class CoffeeModelService implements TreeEditor.ModelService {
         }
         // there is no type, try to guess
         if (node.jsonforms.data.nodes) {
-            return coffeeSchema.definitions?.workflow;
+            return ecoreSchema.definitions?.workflow;
         }
         return undefined;
     }
@@ -83,7 +83,7 @@ export class CoffeeModelService implements TreeEditor.ModelService {
         if (!type) {
             return undefined;
         }
-        const schema = (coffeeSchema.definitions ? Object.entries(coffeeSchema.definitions) : [])
+        const schema = (ecoreSchema.definitions ? Object.entries(ecoreSchema.definitions) : [])
             .map(entry => entry[1])
             .find((definition: JsonSchema7) => definition.properties && definition.properties.eClass.const === type);
         if (!schema) {
@@ -109,39 +109,39 @@ export class CoffeeModelService implements TreeEditor.ModelService {
             return undefined;
         }
         switch (type) {
-            case CoffeeModel.Type.EPackage:
+            case EcoreModel.Type.EPackage:
                 return epackageView;
-            case CoffeeModel.Type.EClass:
+            case EcoreModel.Type.EClass:
                 return eclassView;
-            case CoffeeModel.Type.EReference:
+            case EcoreModel.Type.EReference:
                 return ereferenceView;
-            case CoffeeModel.Type.EAttribute:
+            case EcoreModel.Type.EAttribute:
                 return eattributeView;
-            case CoffeeModel.Type.EEnum:
+            case EcoreModel.Type.EEnum:
                 return eenumView;
-            case CoffeeModel.Type.EEnumLiteral:
+            case EcoreModel.Type.EEnumLiteral:
                 return eenumliteralView;
-            case CoffeeModel.Type.Machine:
+            case EcoreModel.Type.Machine:
                 return machineView;
-            case CoffeeModel.Type.ControlUnit:
+            case EcoreModel.Type.ControlUnit:
                 return controlUnitView;
-            case CoffeeModel.Type.BrewingUnit:
+            case EcoreModel.Type.BrewingUnit:
                 return brewingView;
-            case CoffeeModel.Type.AutomaticTask:
+            case EcoreModel.Type.AutomaticTask:
                 return automaticTaskView;
-            case CoffeeModel.Type.ManualTask:
+            case EcoreModel.Type.ManualTask:
                 return manualTaskView;
-            case CoffeeModel.Type.DipTray:
+            case EcoreModel.Type.DipTray:
                 return dipTrayView;
-            case CoffeeModel.Type.WaterTank:
+            case EcoreModel.Type.WaterTank:
                 return waterTankView;
-            case CoffeeModel.Type.Flow:
+            case EcoreModel.Type.Flow:
                 return flowView;
-            case CoffeeModel.Type.WeightedFlow:
+            case EcoreModel.Type.WeightedFlow:
                 return weightedFlowView;
-            case CoffeeModel.Type.Decision:
+            case EcoreModel.Type.Decision:
                 return decisionView;
-            case CoffeeModel.Type.Merge:
+            case EcoreModel.Type.Merge:
                 return mergeView;
             default:
                 this.logger.warn("Can't find registered ui schema for type " + type);
@@ -150,10 +150,10 @@ export class CoffeeModelService implements TreeEditor.ModelService {
     }
 
     getChildrenMapping(): Map<string, TreeEditor.ChildrenDescriptor[]> {
-        return CoffeeModel.childrenMapping;
+        return EcoreModel.childrenMapping;
     }
 
     getNameForType(eClass: string): string {
-        return CoffeeModel.Type.name(eClass);
+        return EcoreModel.Type.name(eClass);
     }
 }

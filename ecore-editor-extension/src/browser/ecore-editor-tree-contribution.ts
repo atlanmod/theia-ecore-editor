@@ -19,19 +19,19 @@ import { ApplicationShell, NavigatableWidgetOptions, OpenerService, WidgetOpener
 import URI from '@theia/core/lib/common/uri';
 import { inject, injectable } from 'inversify';
 
-import { CoffeeModelService } from './coffee-tree/coffee-model-service';
-import { CoffeeTreeCommands, OpenWorkflowDiagramCommandHandler } from './coffee-tree/coffee-tree-container';
-import { CoffeeTreeEditorConstants } from './coffee-tree/coffee-tree-editor-widget';
-import { CoffeeTreeLabelProvider } from './coffee-tree/coffee-tree-label-provider-contribution';
+import { EcoreModelService } from './coffee-tree/ecore-model-service';
+import { EcoreTreeCommands, OpenWorkflowDiagramCommandHandler } from './coffee-tree/ecore-tree-container';
+import { CoffeeTreeEditorConstants } from './coffee-tree/ecore-tree-editor-widget';
+import { EcoreTreeLabelProvider } from './coffee-tree/ecore-tree-label-provider-contribution';
 
 @injectable()
-export class CoffeeTreeEditorContribution extends BaseTreeEditorContribution {
+export class EcoreTreeEditorContribution extends BaseTreeEditorContribution {
     @inject(ApplicationShell) protected shell: ApplicationShell;
     @inject(OpenerService) protected opener: OpenerService;
 
     constructor(
-        @inject(CoffeeModelService) modelService: TreeEditor.ModelService,
-        @inject(CoffeeTreeLabelProvider) labelProvider: CoffeeTreeLabelProvider
+        @inject(EcoreModelService) modelService: TreeEditor.ModelService,
+        @inject(EcoreTreeLabelProvider) labelProvider: EcoreTreeLabelProvider
     ) {
         super(CoffeeTreeEditorConstants.EDITOR_ID, modelService, labelProvider);
     }
@@ -50,7 +50,7 @@ export class CoffeeTreeEditorContribution extends BaseTreeEditorContribution {
 
     registerCommands(commands: CommandRegistry): void {
         commands.registerCommand(
-            CoffeeTreeCommands.OPEN_WORKFLOW_DIAGRAM,
+            EcoreTreeCommands.OPEN_WORKFLOW_DIAGRAM,
             new OpenWorkflowDiagramCommandHandler(this.shell, this.opener));
 
         super.registerCommands(commands);
@@ -58,8 +58,8 @@ export class CoffeeTreeEditorContribution extends BaseTreeEditorContribution {
 
     registerMenus(menus: MenuModelRegistry): void {
         menus.registerMenuAction(TreeContextMenu.CONTEXT_MENU, {
-            commandId: CoffeeTreeCommands.OPEN_WORKFLOW_DIAGRAM.id,
-            label: CoffeeTreeCommands.OPEN_WORKFLOW_DIAGRAM.label
+            commandId: EcoreTreeCommands.OPEN_WORKFLOW_DIAGRAM.id,
+            label: EcoreTreeCommands.OPEN_WORKFLOW_DIAGRAM.label
         });
 
         super.registerMenus(menus);

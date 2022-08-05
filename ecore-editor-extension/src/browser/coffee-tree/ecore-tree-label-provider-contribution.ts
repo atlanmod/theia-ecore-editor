@@ -13,45 +13,45 @@ import { codicon, LabelProviderContribution } from '@theia/core/lib/browser';
 import URI from '@theia/core/lib/common/uri';
 import { injectable } from 'inversify';
 
-import { CoffeeModel } from './coffee-model';
-import { CoffeeTreeEditorConstants } from './coffee-tree-editor-widget';
+import { EcoreModel } from './ecore-model';
+import { CoffeeTreeEditorConstants } from './ecore-tree-editor-widget';
 
 const DEFAULT_COLOR = 'black';
 
 const ICON_CLASSES: Map<string, string> = new Map([
-    [CoffeeModel.Type.EPackage, 'package ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.EClass, 'symbol-class ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.EReference, 'remote ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.EAttribute, 'symbol-field ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.EEnum, 'symbol-enum ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.EEnumLiteral, 'symbol-enum-member ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.AutomaticTask, 'gear ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.BrewingUnit, 'flame ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.ControlUnit, 'server ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.Decision, 'chevron-up ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.Dimension, 'move ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.DipTray, 'inbox ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.Display, 'tv ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.Flow, 'arrow-swap ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.Fork, 'source-control rotate-90 ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.Join, 'source-control rotate-270 ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.Machine, 'settings-gear ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.ManualTask, 'symbol-property ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.Merge, 'chevron-down ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.Node, 'circle ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.Processor, 'circuit-board ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.RAM, 'memory ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.Task, 'checklist ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.WaterTank, 'beaker ' + DEFAULT_COLOR],
-    [CoffeeModel.Type.WeightedFlow, 'arrow-swap light-orange'],
-    [CoffeeModel.Type.Workflow, 'combine ' + DEFAULT_COLOR]
+    [EcoreModel.Type.EPackage, 'package ' + DEFAULT_COLOR],
+    [EcoreModel.Type.EClass, 'symbol-class ' + DEFAULT_COLOR],
+    [EcoreModel.Type.EReference, 'remote ' + DEFAULT_COLOR],
+    [EcoreModel.Type.EAttribute, 'symbol-field ' + DEFAULT_COLOR],
+    [EcoreModel.Type.EEnum, 'symbol-enum ' + DEFAULT_COLOR],
+    [EcoreModel.Type.EEnumLiteral, 'symbol-enum-member ' + DEFAULT_COLOR],
+    [EcoreModel.Type.AutomaticTask, 'gear ' + DEFAULT_COLOR],
+    [EcoreModel.Type.BrewingUnit, 'flame ' + DEFAULT_COLOR],
+    [EcoreModel.Type.ControlUnit, 'server ' + DEFAULT_COLOR],
+    [EcoreModel.Type.Decision, 'chevron-up ' + DEFAULT_COLOR],
+    [EcoreModel.Type.Dimension, 'move ' + DEFAULT_COLOR],
+    [EcoreModel.Type.DipTray, 'inbox ' + DEFAULT_COLOR],
+    [EcoreModel.Type.Display, 'tv ' + DEFAULT_COLOR],
+    [EcoreModel.Type.Flow, 'arrow-swap ' + DEFAULT_COLOR],
+    [EcoreModel.Type.Fork, 'source-control rotate-90 ' + DEFAULT_COLOR],
+    [EcoreModel.Type.Join, 'source-control rotate-270 ' + DEFAULT_COLOR],
+    [EcoreModel.Type.Machine, 'settings-gear ' + DEFAULT_COLOR],
+    [EcoreModel.Type.ManualTask, 'symbol-property ' + DEFAULT_COLOR],
+    [EcoreModel.Type.Merge, 'chevron-down ' + DEFAULT_COLOR],
+    [EcoreModel.Type.Node, 'circle ' + DEFAULT_COLOR],
+    [EcoreModel.Type.Processor, 'circuit-board ' + DEFAULT_COLOR],
+    [EcoreModel.Type.RAM, 'memory ' + DEFAULT_COLOR],
+    [EcoreModel.Type.Task, 'checklist ' + DEFAULT_COLOR],
+    [EcoreModel.Type.WaterTank, 'beaker ' + DEFAULT_COLOR],
+    [EcoreModel.Type.WeightedFlow, 'arrow-swap light-orange'],
+    [EcoreModel.Type.Workflow, 'combine ' + DEFAULT_COLOR]
 ]);
 
 /* Icon for unknown types */
 const UNKNOWN_ICON = 'circle-slash ' + DEFAULT_COLOR;
 
 @injectable()
-export class CoffeeTreeLabelProvider implements LabelProviderContribution {
+export class EcoreTreeLabelProvider implements LabelProviderContribution {
     public canHandle(element: object): number {
         if (
             (TreeEditor.Node.is(element) || TreeEditor.CommandIconInfo.is(element)) &&
@@ -69,7 +69,7 @@ export class CoffeeTreeLabelProvider implements LabelProviderContribution {
         } else if (TreeEditor.Node.is(element)) {
             iconClass = ICON_CLASSES.get(element.jsonforms.type);
             if (!iconClass && element.jsonforms.property === 'flows') {
-                iconClass = ICON_CLASSES.get(CoffeeModel.Type.Flow);
+                iconClass = ICON_CLASSES.get(EcoreModel.Type.Flow);
             }
         }
         return iconClass ? codicon(iconClass) : codicon(UNKNOWN_ICON);
@@ -79,16 +79,16 @@ export class CoffeeTreeLabelProvider implements LabelProviderContribution {
         const data = TreeEditor.Node.is(element) ? element.jsonforms.data : element;
         if (data.eClass) {
             switch (data.eClass) {
-                case CoffeeModel.Type.EPackage:
-                case CoffeeModel.Type.EClass:
-                case CoffeeModel.Type.EReference:
-                case CoffeeModel.Type.EAttribute:
-                case CoffeeModel.Type.EEnum:
-                case CoffeeModel.Type.EEnumLiteral:
-                case CoffeeModel.Type.Task:
-                case CoffeeModel.Type.AutomaticTask:
-                case CoffeeModel.Type.ManualTask:
-                case CoffeeModel.Type.Machine:
+                case EcoreModel.Type.EPackage:
+                case EcoreModel.Type.EClass:
+                case EcoreModel.Type.EReference:
+                case EcoreModel.Type.EAttribute:
+                case EcoreModel.Type.EEnum:
+                case EcoreModel.Type.EEnumLiteral:
+                case EcoreModel.Type.Task:
+                case EcoreModel.Type.AutomaticTask:
+                case EcoreModel.Type.ManualTask:
+                case EcoreModel.Type.Machine:
                     return data.name || this.getTypeName(data.eClass);
                 default:
                     // TODO query title of schema

@@ -18,25 +18,25 @@ import { LabelProviderContribution, NavigatableWidgetOptions, OpenHandler, Widge
 import URI from '@theia/core/lib/common/uri';
 import { ContainerModule } from 'inversify';
 
-import { CoffeeTreeEditorContribution } from './coffee-editor-tree-contribution';
-import { CoffeeLabelProviderContribution } from './coffee-label-provider';
-import { CoffeeModelService } from './coffee-tree/coffee-model-service';
-import { CoffeeTreeNodeFactory } from './coffee-tree/coffee-node-factory';
-import { CoffeeTreeEditorConstants, CoffeeTreeEditorWidget } from './coffee-tree/coffee-tree-editor-widget';
-import { CoffeeTreeLabelProvider } from './coffee-tree/coffee-tree-label-provider-contribution';
+import { EcoreTreeEditorContribution } from './ecore-editor-tree-contribution';
+import { EcoreLabelProviderContribution } from './ecore-label-provider';
+import { EcoreModelService } from './coffee-tree/ecore-model-service';
+import { EcoreTreeNodeFactory } from './coffee-tree/ecore-node-factory';
+import { CoffeeTreeEditorConstants, EcoreTreeEditorWidget } from './coffee-tree/ecore-tree-editor-widget';
+import { EcoreTreeLabelProvider } from './coffee-tree/ecore-tree-label-provider-contribution';
 import { Resolver } from './coffee-tree/resolver';
 
 export default new ContainerModule(bind => {
     // Bind Theia IDE contributions
-    bind(LabelProviderContribution).to(CoffeeLabelProviderContribution);
-    bind(OpenHandler).to(CoffeeTreeEditorContribution);
-    bind(MenuContribution).to(CoffeeTreeEditorContribution);
-    bind(CommandContribution).to(CoffeeTreeEditorContribution);
-    bind(LabelProviderContribution).to(CoffeeTreeLabelProvider);
+    bind(LabelProviderContribution).to(EcoreLabelProviderContribution);
+    bind(OpenHandler).to(EcoreTreeEditorContribution);
+    bind(MenuContribution).to(EcoreTreeEditorContribution);
+    bind(CommandContribution).to(EcoreTreeEditorContribution);
+    bind(LabelProviderContribution).to(EcoreTreeLabelProvider);
 
     // bind to themselves because we use it outside of the editor widget, too.
-    bind(CoffeeModelService).toSelf().inSingletonScope();
-    bind(CoffeeTreeLabelProvider).toSelf().inSingletonScope();
+    bind(EcoreModelService).toSelf().inSingletonScope();
+    bind(EcoreTreeLabelProvider).toSelf().inSingletonScope();
 
     bind(Resolver).toSelf().inSingletonScope();
 
@@ -46,16 +46,16 @@ export default new ContainerModule(bind => {
 
             const treeContainer = createBasicTreeContainer(
                 context.container,
-                CoffeeTreeEditorWidget,
-                CoffeeModelService,
-                CoffeeTreeNodeFactory
+                EcoreTreeEditorWidget,
+                EcoreModelService,
+                EcoreTreeNodeFactory
             );
 
             // Bind options
             const uri = new URI(options.uri);
             treeContainer.bind(NavigatableTreeEditorOptions).toConstantValue({ uri });
 
-            return treeContainer.get(CoffeeTreeEditorWidget);
+            return treeContainer.get(EcoreTreeEditorWidget);
         }
     }));
 });

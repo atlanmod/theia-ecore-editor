@@ -15,7 +15,7 @@ import { FileStat } from '@theia/filesystem/lib/common/files';
 import { injectable } from 'inversify';
 
 @injectable()
-export class CoffeeLabelProviderContribution implements LabelProviderContribution {
+export class EcoreLabelProviderContribution implements LabelProviderContribution {
     canHandle(uri: object): number {
         let toCheck: any = uri;
         if (FileStat.is(toCheck)) {

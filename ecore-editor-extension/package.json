@@ -30,7 +30,7 @@
   },
   "theiaExtensions": [
     {
-      "frontend": "lib/browser/coffee-editor-frontend-module"
+      "frontend": "lib/browser/ecore-editor-frontend-module"
     }
   ]
 }

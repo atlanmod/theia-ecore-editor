@@ -13,10 +13,10 @@ import { Command, CommandHandler } from '@theia/core';
 import { ApplicationShell, OpenerService } from '@theia/core/lib/browser';
 import URI from '@theia/core/lib/common/uri';
 
-import { CoffeeModel } from './coffee-model';
-import { CoffeeTreeEditorWidget } from './coffee-tree-editor-widget';
+import { EcoreModel } from './ecore-model';
+import { EcoreTreeEditorWidget } from './ecore-tree-editor-widget';
 
-export namespace CoffeeTreeCommands {
+export namespace EcoreTreeCommands {
     export const OPEN_WORKFLOW_DIAGRAM: Command = {
         id: 'workflow.open',
         label: 'Open Workflow Diagram'
@@ -42,22 +42,22 @@ export class OpenWorkflowDiagramCommandHandler implements CommandHandler {
         return !!widget && this.getSelectedWorkflow(widget) !== undefined;
     }
 
-    getTreeEditorWidget(): CoffeeTreeEditorWidget | undefined {
+    getTreeEditorWidget(): EcoreTreeEditorWidget | undefined {
         const currentWidget = this.shell.currentWidget;
-        if (currentWidget instanceof CoffeeTreeEditorWidget) {
+        if (currentWidget instanceof EcoreTreeEditorWidget) {
             return currentWidget;
         }
         return undefined;
     }
 
-    getSelectedWorkflow(widget: CoffeeTreeEditorWidget): TreeEditor.Node | undefined {
-        if (widget && TreeEditor.Node.hasType(widget.selectedNode, CoffeeModel.Type.Workflow)) {
+    getSelectedWorkflow(widget: EcoreTreeEditorWidget): TreeEditor.Node | undefined {
+        if (widget && TreeEditor.Node.hasType(widget.selectedNode, EcoreModel.Type.Workflow)) {
             return widget.selectedNode;
         }
         return undefined;
     }
 
-    getNotationUri(widget: CoffeeTreeEditorWidget): URI {
+    getNotationUri(widget: EcoreTreeEditorWidget): URI {
         const coffeeUri = widget.uri;
         const coffeeNotationUri = coffeeUri.parent.resolve(coffeeUri.displayName + 'notation');
         return coffeeNotationUri;

@@ -637,7 +637,7 @@ export const workflowView = {
 };
 
 // TODO JSONSchema should be fetched from the modelserver instead of hard coded copy in code
-export const coffeeSchema: JsonSchema7 = {
+export const ecoreSchema: JsonSchema7 = {
     'definitions': {
         'ePackage': {
             '$id': '#ePackage',

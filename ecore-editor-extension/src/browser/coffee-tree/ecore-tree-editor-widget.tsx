@@ -36,7 +36,7 @@ import { WorkspaceService } from '@theia/workspace/lib/browser/workspace-service
 import { inject, injectable } from 'inversify';
 import { get, isEqual, isObject, reduce } from 'lodash';
 
-import { CoffeeModel } from './coffee-model';
+import { EcoreModel } from './ecore-model';
 import { AddAutomatedTaskCommand, AddDecisionNodeCommand, AddManualTaskCommand, AddMergeNodeCommand, ID_PROP } from './model-server';
 import { Resolver } from './resolver';
 
@@ -46,7 +46,7 @@ interface PathSegment {
 }
 
 @injectable()
-export class CoffeeTreeEditorWidget extends NavigatableTreeEditorWidget {
+export class EcoreTreeEditorWidget extends NavigatableTreeEditorWidget {
     private delayedRefresh = false;
     private idToPath: Map<string, PathSegment[]> = new Map<string, PathSegment[]>();
 
@@ -205,13 +205,13 @@ export class CoffeeTreeEditorWidget extends NavigatableTreeEditorWidget {
 
     protected async addNode({ node, type, property }: AddCommandProperty): Promise<void> {
         let addCommand;
-        if (type === CoffeeModel.Type.AutomaticTask) {
+        if (type === EcoreModel.Type.AutomaticTask) {
             addCommand = new AddAutomatedTaskCommand();
-        } else if (type === CoffeeModel.Type.ManualTask) {
+        } else if (type === EcoreModel.Type.ManualTask) {
             addCommand = new AddManualTaskCommand();
-        } else if (type === CoffeeModel.Type.Decision) {
+        } else if (type === EcoreModel.Type.Decision) {
             addCommand = new AddDecisionNodeCommand();
-        } else if (type === CoffeeModel.Type.Merge) {
+        } else if (type === EcoreModel.Type.Merge) {
             addCommand = new AddMergeNodeCommand();
         } else {
             addCommand = new AddCommand(this.getNodeDescription(node), property, [{ eClass: type }]);
@@ -304,9 +304,9 @@ export class CoffeeTreeEditorWidget extends NavigatableTreeEditorWidget {
 
     protected createAddRamCommand(jsonFormsData: any): ModelServerCommand {
         const addCommand = new AddCommand(this.getOwner(jsonFormsData), 'ram', []);
-        const toAdd = { eClass: CoffeeModel.Type.RAM };
+        const toAdd = { eClass: EcoreModel.Type.RAM };
         addCommand.objectsToAdd = [toAdd];
-        const ref = { $ref: '//@objectsToAdd.0', eClass: CoffeeModel.Type.RAM };
+        const ref = { $ref: '//@objectsToAdd.0', eClass: EcoreModel.Type.RAM };
         addCommand.objectValues = [ref];
         addCommand.indices = [-1];
         return addCommand;
@@ -322,16 +322,16 @@ export class CoffeeTreeEditorWidget extends NavigatableTreeEditorWidget {
         if (!eClass && ownerFeatureName) {
             switch (ownerFeatureName) {
                 case 'processor':
-                    eClass = CoffeeModel.Type.Processor;
+                    eClass = EcoreModel.Type.Processor;
                     break;
                 case 'dimension':
-                    eClass = CoffeeModel.Type.Dimension;
+                    eClass = EcoreModel.Type.Dimension;
                     break;
                 case 'ram':
-                    eClass = CoffeeModel.Type.RAM;
+                    eClass = EcoreModel.Type.RAM;
                     break;
                 case 'display':
-                    eClass = CoffeeModel.Type.Display;
+                    eClass = EcoreModel.Type.Display;
                     break;
             }
         }

@@ -13,15 +13,15 @@ import { ILogger } from '@theia/core';
 import { inject, injectable } from 'inversify';
 import { v4 } from 'uuid';
 
-import { CoffeeModel } from './coffee-model';
-import { CoffeeTreeEditorConstants } from './coffee-tree-editor-widget';
-import { CoffeeTreeLabelProvider } from './coffee-tree-label-provider-contribution';
-import EEnumLiteral = CoffeeModel.Type.EEnumLiteral;
+import { EcoreModel } from './ecore-model';
+import { CoffeeTreeEditorConstants } from './ecore-tree-editor-widget';
+import { EcoreTreeLabelProvider } from './ecore-tree-label-provider-contribution';
+import EEnumLiteral = EcoreModel.Type.EEnumLiteral;
 
 @injectable()
-export class CoffeeTreeNodeFactory implements TreeEditor.NodeFactory {
+export class EcoreTreeNodeFactory implements TreeEditor.NodeFactory {
     constructor(
-        @inject(CoffeeTreeLabelProvider) private readonly labelProvider: CoffeeTreeLabelProvider,
+        @inject(EcoreTreeLabelProvider) private readonly labelProvider: EcoreTreeLabelProvider,
         @inject(ILogger) private readonly logger: ILogger
     ) {}
 
@@ -89,7 +89,7 @@ export class CoffeeTreeNodeFactory implements TreeEditor.NodeFactory {
         if (data.workflows) {
             // machine type
             data.workflows.forEach((element: any, idx: number) => {
-                element.eClass = CoffeeModel.Type.Workflow;
+                element.eClass = EcoreModel.Type.Workflow;
                 this.mapData(element, node, 'workflows', idx);
             });
         }
@@ -102,14 +102,14 @@ export class CoffeeTreeNodeFactory implements TreeEditor.NodeFactory {
         if (data.flows) {
             // workflow type
             data.flows.forEach((element: any, idx: number) => {
-                this.mapData(element, node, 'flows', idx, CoffeeModel.Type.Flow);
+                this.mapData(element, node, 'flows', idx, EcoreModel.Type.Flow);
             });
         }
         return node;
     }
 
     hasCreatableChildren(node: TreeEditor.Node): boolean {
-        return node ? CoffeeModel.childrenMapping.get(node.jsonforms.type) !== undefined : false;
+        return node ? EcoreModel.childrenMapping.get(node.jsonforms.type) !== undefined : false;
     }
 
     protected defaultNode(): Pick<
@@ -154,7 +154,7 @@ export class CoffeeTreeNodeFactory implements TreeEditor.NodeFactory {
         }
         // guess
         if (data.nodes) {
-            return CoffeeModel.Type.Workflow;
+            return EcoreModel.Type.Workflow;
         }
         return undefined;
     }

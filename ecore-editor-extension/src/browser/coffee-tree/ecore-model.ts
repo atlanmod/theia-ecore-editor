@@ -11,7 +11,7 @@
 import { TreeEditor } from '@eclipse-emfcloud/theia-tree-editor';
 import URI from '@theia/core/lib/common/uri';
 
-export namespace CoffeeModel {
+export namespace EcoreModel {
     export namespace Type {
         export const EPackage = 'http://www.eclipse.org/emf/2002/Ecore#//EPackage';
         export const EClass = 'http://www.eclipse.org/emf/2002/Ecore#//EClass';
