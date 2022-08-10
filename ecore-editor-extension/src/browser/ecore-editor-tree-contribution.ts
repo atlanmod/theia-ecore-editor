@@ -19,10 +19,10 @@ import { ApplicationShell, NavigatableWidgetOptions, OpenerService, WidgetOpener
 import URI from '@theia/core/lib/common/uri';
 import { inject, injectable } from 'inversify';
 
-import { EcoreModelService } from './coffee-tree/ecore-model-service';
-import { EcoreTreeCommands, OpenWorkflowDiagramCommandHandler } from './coffee-tree/ecore-tree-container';
-import { CoffeeTreeEditorConstants } from './coffee-tree/ecore-tree-editor-widget';
-import { EcoreTreeLabelProvider } from './coffee-tree/ecore-tree-label-provider-contribution';
+import { EcoreModelService } from './ecore-tree/ecore-model-service';
+import { EcoreTreeCommands, OpenWorkflowDiagramCommandHandler } from './ecore-tree/ecore-tree-container';
+import { CoffeeTreeEditorConstants } from './ecore-tree/ecore-tree-editor-widget';
+import { EcoreTreeLabelProvider } from './ecore-tree/ecore-tree-label-provider-contribution';
 
 @injectable()
 export class EcoreTreeEditorContribution extends BaseTreeEditorContribution {
