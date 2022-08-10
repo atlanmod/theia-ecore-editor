@@ -57,9 +57,9 @@ export class OpenWorkflowDiagramCommandHandler implements CommandHandler {
     }
 
     getNotationUri(widget: EcoreTreeEditorWidget): URI {
-        const coffeeUri = widget.uri;
-        const coffeeNotationUri = coffeeUri.parent.resolve(coffeeUri.displayName + 'notation');
-        return coffeeNotationUri;
+        const ecoreUri = widget.uri;
+        const ecoreNotationUri = ecoreUri.parent.resolve(ecoreUri.displayName + 'notation');
+        return ecoreNotationUri;
     }
 
     createServerOptions(node: TreeEditor.Node): any {
