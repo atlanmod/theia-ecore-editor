@@ -21,7 +21,7 @@ import { inject, injectable } from 'inversify';
 
 import { EcoreModelService } from './ecore-tree/ecore-model-service';
 import { EcoreTreeCommands, OpenWorkflowDiagramCommandHandler } from './ecore-tree/ecore-tree-container';
-import { CoffeeTreeEditorConstants } from './ecore-tree/ecore-tree-editor-widget';
+import { EcoreTreeEditorConstants } from './ecore-tree/ecore-tree-editor-widget';
 import { EcoreTreeLabelProvider } from './ecore-tree/ecore-tree-label-provider-contribution';
 
 @injectable()
@@ -33,10 +33,10 @@ export class EcoreTreeEditorContribution extends BaseTreeEditorContribution {
         @inject(EcoreModelService) modelService: TreeEditor.ModelService,
         @inject(EcoreTreeLabelProvider) labelProvider: EcoreTreeLabelProvider
     ) {
-        super(CoffeeTreeEditorConstants.EDITOR_ID, modelService, labelProvider);
+        super(EcoreTreeEditorConstants.EDITOR_ID, modelService, labelProvider);
     }
 
-    readonly id = CoffeeTreeEditorConstants.WIDGET_ID;
+    readonly id = EcoreTreeEditorConstants.WIDGET_ID;
     readonly label = BaseTreeEditorWidget.WIDGET_LABEL;
 
     canHandle(uri: URI): number {

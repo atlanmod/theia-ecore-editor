@@ -14,7 +14,7 @@ import URI from '@theia/core/lib/common/uri';
 import { injectable } from 'inversify';
 
 import { EcoreModel } from './ecore-model';
-import { CoffeeTreeEditorConstants } from './ecore-tree-editor-widget';
+import { EcoreTreeEditorConstants } from './ecore-tree-editor-widget';
 
 const DEFAULT_COLOR = 'black';
 
@@ -55,7 +55,7 @@ export class EcoreTreeLabelProvider implements LabelProviderContribution {
     public canHandle(element: object): number {
         if (
             (TreeEditor.Node.is(element) || TreeEditor.CommandIconInfo.is(element)) &&
-            element.editorId === CoffeeTreeEditorConstants.EDITOR_ID
+            element.editorId === EcoreTreeEditorConstants.EDITOR_ID
         ) {
             return 1000;
         }

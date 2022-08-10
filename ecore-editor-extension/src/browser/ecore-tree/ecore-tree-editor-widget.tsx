@@ -63,7 +63,7 @@ export class EcoreTreeEditorWidget extends NavigatableTreeEditorWidget {
         private readonly subscriptionService: ModelServerSubscriptionService,
         @inject(Resolver) private readonly resolver : Resolver
     ) {
-        super(treeWidget, formWidget, workspaceService, logger, CoffeeTreeEditorConstants.WIDGET_ID, options);
+        super(treeWidget, formWidget, workspaceService, logger, EcoreTreeEditorConstants.WIDGET_ID, options);
         this.subscriptionService.onDirtyStateListener(modelServerMessage => {
             this.dirty = modelServerMessage.data as boolean;
             this.onDirtyChangedEmitter.fire();
@@ -386,7 +386,7 @@ export class EcoreTreeEditorWidget extends NavigatableTreeEditorWidget {
         }
     }
 }
-export namespace CoffeeTreeEditorConstants {
+export namespace EcoreTreeEditorConstants {
     export const WIDGET_ID = 'json-forms-tree-editor';
     export const EDITOR_ID = 'org.eclipse.emfcloud.coffee.editor';
 }

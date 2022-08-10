@@ -14,7 +14,7 @@ import { inject, injectable } from 'inversify';
 import { v4 } from 'uuid';
 
 import { EcoreModel } from './ecore-model';
-import { CoffeeTreeEditorConstants } from './ecore-tree-editor-widget';
+import { EcoreTreeEditorConstants } from './ecore-tree-editor-widget';
 import { EcoreTreeLabelProvider } from './ecore-tree-label-provider-contribution';
 import EEnumLiteral = EcoreModel.Type.EEnumLiteral;
 
@@ -39,12 +39,12 @@ export class EcoreTreeNodeFactory implements TreeEditor.NodeFactory {
             this.logger.warn('mapData called without data');
             return {
                 ...this.defaultNode(),
-                editorId: CoffeeTreeEditorConstants.EDITOR_ID
+                editorId: EcoreTreeEditorConstants.EDITOR_ID
             };
         }
         const node: TreeEditor.Node = {
             ...this.defaultNode(),
-            editorId: CoffeeTreeEditorConstants.EDITOR_ID,
+            editorId: EcoreTreeEditorConstants.EDITOR_ID,
             name: this.labelProvider.getName(data) ?? '',
             parent: parent,
             jsonforms: {

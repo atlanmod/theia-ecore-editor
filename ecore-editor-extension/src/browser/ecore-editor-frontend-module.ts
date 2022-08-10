@@ -22,7 +22,7 @@ import { EcoreTreeEditorContribution } from './ecore-editor-tree-contribution';
 import { EcoreLabelProviderContribution } from './ecore-label-provider';
 import { EcoreModelService } from './ecore-tree/ecore-model-service';
 import { EcoreTreeNodeFactory } from './ecore-tree/ecore-node-factory';
-import { CoffeeTreeEditorConstants, EcoreTreeEditorWidget } from './ecore-tree/ecore-tree-editor-widget';
+import { EcoreTreeEditorConstants, EcoreTreeEditorWidget } from './ecore-tree/ecore-tree-editor-widget';
 import { EcoreTreeLabelProvider } from './ecore-tree/ecore-tree-label-provider-contribution';
 import { Resolver } from './ecore-tree/resolver';
 
@@ -41,7 +41,7 @@ export default new ContainerModule(bind => {
     bind(Resolver).toSelf().inSingletonScope();
 
     bind<WidgetFactory>(WidgetFactory).toDynamicValue(context => ({
-        id: CoffeeTreeEditorConstants.WIDGET_ID,
+        id: EcoreTreeEditorConstants.WIDGET_ID,
         createWidget: (options: NavigatableWidgetOptions) => {
 
             const treeContainer = createBasicTreeContainer(
