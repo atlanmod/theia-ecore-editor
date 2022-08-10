@@ -329,5 +329,5 @@ export class EcoreTreeEditorWidget extends NavigatableTreeEditorWidget {
 }
 export namespace EcoreTreeEditorConstants {
     export const WIDGET_ID = 'json-forms-tree-editor';
-    export const EDITOR_ID = 'org.eclipse.emfcloud.coffee.editor';
+    export const EDITOR_ID = 'org.atlanmod.ecore.editor';
 }
