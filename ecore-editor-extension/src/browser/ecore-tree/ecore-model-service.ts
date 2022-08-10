@@ -21,19 +21,7 @@ import {
     eenumView,
     eenumliteralView,
     eattributeView,
-    automaticTaskView,
-    brewingView,
-    ecoreSchema,
-    controlUnitView,
-    decisionView,
-    dipTrayView,
-    flowView,
-    machineView,
-    manualTaskView,
-    mergeView,
-    waterTankView,
-    weightedFlowView,
-    workflowView
+    ecoreSchema
 } from './ecore-schemas';
 import { Resolver } from './resolver';
 
@@ -97,10 +85,6 @@ export class EcoreModelService implements TreeEditor.ModelService {
         if (schema) {
             return schema;
         }
-        // there is no type, try to guess
-        if (node.jsonforms.data.nodes) {
-            return workflowView;
-        }
         return undefined;
     }
 
@@ -121,28 +105,6 @@ export class EcoreModelService implements TreeEditor.ModelService {
                 return eenumView;
             case EcoreModel.Type.EEnumLiteral:
                 return eenumliteralView;
-            case EcoreModel.Type.Machine:
-                return machineView;
-            case EcoreModel.Type.ControlUnit:
-                return controlUnitView;
-            case EcoreModel.Type.BrewingUnit:
-                return brewingView;
-            case EcoreModel.Type.AutomaticTask:
-                return automaticTaskView;
-            case EcoreModel.Type.ManualTask:
-                return manualTaskView;
-            case EcoreModel.Type.DipTray:
-                return dipTrayView;
-            case EcoreModel.Type.WaterTank:
-                return waterTankView;
-            case EcoreModel.Type.Flow:
-                return flowView;
-            case EcoreModel.Type.WeightedFlow:
-                return weightedFlowView;
-            case EcoreModel.Type.Decision:
-                return decisionView;
-            case EcoreModel.Type.Merge:
-                return mergeView;
             default:
                 this.logger.warn("Can't find registered ui schema for type " + type);
                 return undefined;

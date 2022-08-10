@@ -36,8 +36,7 @@ import { WorkspaceService } from '@theia/workspace/lib/browser/workspace-service
 import { inject, injectable } from 'inversify';
 import { get, isEqual, isObject, reduce } from 'lodash';
 
-import { EcoreModel } from './ecore-model';
-import { AddAutomatedTaskCommand, AddDecisionNodeCommand, AddManualTaskCommand, AddMergeNodeCommand, ID_PROP } from './model-server';
+import { ID_PROP } from './model-server';
 import { Resolver } from './resolver';
 
 interface PathSegment {
@@ -204,18 +203,7 @@ export class EcoreTreeEditorWidget extends NavigatableTreeEditorWidget {
     }
 
     protected async addNode({ node, type, property }: AddCommandProperty): Promise<void> {
-        let addCommand;
-        if (type === EcoreModel.Type.AutomaticTask) {
-            addCommand = new AddAutomatedTaskCommand();
-        } else if (type === EcoreModel.Type.ManualTask) {
-            addCommand = new AddManualTaskCommand();
-        } else if (type === EcoreModel.Type.Decision) {
-            addCommand = new AddDecisionNodeCommand();
-        } else if (type === EcoreModel.Type.Merge) {
-            addCommand = new AddMergeNodeCommand();
-        } else {
-            addCommand = new AddCommand(this.getNodeDescription(node), property, [{ eClass: type }]);
-        }
+        const addCommand = new AddCommand(this.getNodeDescription(node), property, [{ eClass: type }]);
         this.modelServerApi.edit(this.getModelIDToRequest(), addCommand);
     }
 
@@ -233,22 +221,6 @@ export class EcoreTreeEditorWidget extends NavigatableTreeEditorWidget {
             if (changedFeatures.length > 0) {
                 const editCommand = this.createSetCommand(changedFeatures[0], jsonFormsData);
                 this.modelServerApi.edit(this.getModelIDToRequest(), editCommand);
-            } else {
-                // TODO temporary workaround to add and remove ram objects from the ram array
-                // it is not really stable yet, please re-evaluate if deepDiff does return the actual added/removed objects
-                // removing objects is currently disabled via CSS, but the remove command is already working if the correct index can be determined
-                const addedRamElement = this.deepDiff(this.selectedNode.jsonforms.data, jsonFormsData);
-                if (addedRamElement['ram'] && addedRamElement['ram'].length > 0) {
-                    const addRamCommand = this.createAddRamCommand(jsonFormsData);
-                    this.modelServerApi.edit(this.getModelIDToRequest(), addRamCommand);
-                } else {
-                    const removedRamElement = this.deepDiff(jsonFormsData, this.selectedNode.jsonforms.data);
-                    if (removedRamElement) {
-                        // TODO ensure that ram object and not array is handed over to createRemoveRamCommand
-                        const removeRamCommand = this.createRemoveRamCommand(jsonFormsData);
-                        this.modelServerApi.edit(this.getModelIDToRequest(), removeRamCommand);
-                    }
-                }
             }
         }
     }
@@ -302,39 +274,8 @@ export class EcoreTreeEditorWidget extends NavigatableTreeEditorWidget {
         }
     }
 
-    protected createAddRamCommand(jsonFormsData: any): ModelServerCommand {
-        const addCommand = new AddCommand(this.getOwner(jsonFormsData), 'ram', []);
-        const toAdd = { eClass: EcoreModel.Type.RAM };
-        addCommand.objectsToAdd = [toAdd];
-        const ref = { $ref: '//@objectsToAdd.0', eClass: EcoreModel.Type.RAM };
-        addCommand.objectValues = [ref];
-        addCommand.indices = [-1];
-        return addCommand;
-    }
-
-    protected createRemoveRamCommand(jsonFormsData: any): ModelServerCommand {
-        // TODO fix index
-        return new RemoveCommand(this.getOwner(jsonFormsData), 'ram', [0]);
-    }
-
     protected getOwner(jsonFormsData: any, ownerFeatureName?: string): ModelServerReferenceDescription {
-        let eClass = jsonFormsData.eClass;
-        if (!eClass && ownerFeatureName) {
-            switch (ownerFeatureName) {
-                case 'processor':
-                    eClass = EcoreModel.Type.Processor;
-                    break;
-                case 'dimension':
-                    eClass = EcoreModel.Type.Dimension;
-                    break;
-                case 'ram':
-                    eClass = EcoreModel.Type.RAM;
-                    break;
-                case 'display':
-                    eClass = EcoreModel.Type.Display;
-                    break;
-            }
-        }
+        const eClass = jsonFormsData.eClass;
         return {
             $ref: this.getOwnerRef(jsonFormsData[ID_PROP]),
             eClass: eClass

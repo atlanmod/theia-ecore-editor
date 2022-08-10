@@ -86,25 +86,6 @@ export class EcoreTreeNodeFactory implements TreeEditor.NodeFactory {
                 this.mapData(element, node, 'eLiterals', idx);
             });
         }
-        if (data.workflows) {
-            // machine type
-            data.workflows.forEach((element: any, idx: number) => {
-                element.eClass = EcoreModel.Type.Workflow;
-                this.mapData(element, node, 'workflows', idx);
-            });
-        }
-        if (data.nodes) {
-            // workflow type
-            data.nodes.forEach((element: any, idx: number) => {
-                this.mapData(element, node, 'nodes', idx);
-            });
-        }
-        if (data.flows) {
-            // workflow type
-            data.flows.forEach((element: any, idx: number) => {
-                this.mapData(element, node, 'flows', idx, EcoreModel.Type.Flow);
-            });
-        }
         return node;
     }
 
@@ -151,10 +132,6 @@ export class EcoreTreeNodeFactory implements TreeEditor.NodeFactory {
         if (data.eClass) {
             // eClass of node
             return data.eClass;
-        }
-        // guess
-        if (data.nodes) {
-            return EcoreModel.Type.Workflow;
         }
         return undefined;
     }

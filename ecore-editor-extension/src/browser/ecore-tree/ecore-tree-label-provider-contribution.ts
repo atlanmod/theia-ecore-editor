@@ -24,27 +24,7 @@ const ICON_CLASSES: Map<string, string> = new Map([
     [EcoreModel.Type.EReference, 'remote ' + DEFAULT_COLOR],
     [EcoreModel.Type.EAttribute, 'symbol-field ' + DEFAULT_COLOR],
     [EcoreModel.Type.EEnum, 'symbol-enum ' + DEFAULT_COLOR],
-    [EcoreModel.Type.EEnumLiteral, 'symbol-enum-member ' + DEFAULT_COLOR],
-    [EcoreModel.Type.AutomaticTask, 'gear ' + DEFAULT_COLOR],
-    [EcoreModel.Type.BrewingUnit, 'flame ' + DEFAULT_COLOR],
-    [EcoreModel.Type.ControlUnit, 'server ' + DEFAULT_COLOR],
-    [EcoreModel.Type.Decision, 'chevron-up ' + DEFAULT_COLOR],
-    [EcoreModel.Type.Dimension, 'move ' + DEFAULT_COLOR],
-    [EcoreModel.Type.DipTray, 'inbox ' + DEFAULT_COLOR],
-    [EcoreModel.Type.Display, 'tv ' + DEFAULT_COLOR],
-    [EcoreModel.Type.Flow, 'arrow-swap ' + DEFAULT_COLOR],
-    [EcoreModel.Type.Fork, 'source-control rotate-90 ' + DEFAULT_COLOR],
-    [EcoreModel.Type.Join, 'source-control rotate-270 ' + DEFAULT_COLOR],
-    [EcoreModel.Type.Machine, 'settings-gear ' + DEFAULT_COLOR],
-    [EcoreModel.Type.ManualTask, 'symbol-property ' + DEFAULT_COLOR],
-    [EcoreModel.Type.Merge, 'chevron-down ' + DEFAULT_COLOR],
-    [EcoreModel.Type.Node, 'circle ' + DEFAULT_COLOR],
-    [EcoreModel.Type.Processor, 'circuit-board ' + DEFAULT_COLOR],
-    [EcoreModel.Type.RAM, 'memory ' + DEFAULT_COLOR],
-    [EcoreModel.Type.Task, 'checklist ' + DEFAULT_COLOR],
-    [EcoreModel.Type.WaterTank, 'beaker ' + DEFAULT_COLOR],
-    [EcoreModel.Type.WeightedFlow, 'arrow-swap light-orange'],
-    [EcoreModel.Type.Workflow, 'combine ' + DEFAULT_COLOR]
+    [EcoreModel.Type.EEnumLiteral, 'symbol-enum-member ' + DEFAULT_COLOR]
 ]);
 
 /* Icon for unknown types */
@@ -68,9 +48,6 @@ export class EcoreTreeLabelProvider implements LabelProviderContribution {
             iconClass = ICON_CLASSES.get(element.type);
         } else if (TreeEditor.Node.is(element)) {
             iconClass = ICON_CLASSES.get(element.jsonforms.type);
-            if (!iconClass && element.jsonforms.property === 'flows') {
-                iconClass = ICON_CLASSES.get(EcoreModel.Type.Flow);
-            }
         }
         return iconClass ? codicon(iconClass) : codicon(UNKNOWN_ICON);
     }
@@ -85,10 +62,6 @@ export class EcoreTreeLabelProvider implements LabelProviderContribution {
                 case EcoreModel.Type.EAttribute:
                 case EcoreModel.Type.EEnum:
                 case EcoreModel.Type.EEnumLiteral:
-                case EcoreModel.Type.Task:
-                case EcoreModel.Type.AutomaticTask:
-                case EcoreModel.Type.ManualTask:
-                case EcoreModel.Type.Machine:
                     return data.name || this.getTypeName(data.eClass);
                 default:
                     // TODO query title of schema

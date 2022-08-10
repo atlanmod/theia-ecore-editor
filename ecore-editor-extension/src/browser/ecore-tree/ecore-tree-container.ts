@@ -13,7 +13,6 @@ import { Command, CommandHandler } from '@theia/core';
 import { ApplicationShell, OpenerService } from '@theia/core/lib/browser';
 import URI from '@theia/core/lib/common/uri';
 
-import { EcoreModel } from './ecore-model';
 import { EcoreTreeEditorWidget } from './ecore-tree-editor-widget';
 
 export namespace EcoreTreeCommands {
@@ -51,9 +50,9 @@ export class OpenWorkflowDiagramCommandHandler implements CommandHandler {
     }
 
     getSelectedWorkflow(widget: EcoreTreeEditorWidget): TreeEditor.Node | undefined {
-        if (widget && TreeEditor.Node.hasType(widget.selectedNode, EcoreModel.Type.Workflow)) {
+        /*if (widget && TreeEditor.Node.hasType(widget.selectedNode, EcoreModel.Type.Workflow)) {
             return widget.selectedNode;
-        }
+        }*/
         return undefined;
     }
 
