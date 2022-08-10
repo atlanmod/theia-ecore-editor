@@ -24,7 +24,7 @@ export class EcoreLabelProviderContribution implements LabelProviderContribution
             toCheck = UriSelection.getUri(uri);
         }
         if (toCheck instanceof URI) {
-            if (['.coffee', '.ecore'].includes(toCheck.path.ext)) {
+            if (['.ecore'].includes(toCheck.path.ext)) {
                 return 1000;
             }
         }
