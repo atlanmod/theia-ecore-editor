@@ -5,11 +5,15 @@
     "paths": {
       "ecore-editor-extension": [
         "coffee-editor-extension/src/*"
+      ],
+      "coffee-server": [
+        "coffee-server/src/*"
       ]
     }
   },
   "include": [
-    "ecore-editor-extension/src"
+    "ecore-editor-extension/src",
+    "coffee-server/src"
   ],
   "exclude": [
     "node_modules"

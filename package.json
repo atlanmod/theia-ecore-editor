@@ -28,7 +28,8 @@
     "packages": [
       "browser-app",
       "configs",
-      "ecore-editor-extension/"
+      "ecore-editor-extension/",
+      "coffee-server/"
     ]
   },
   "resolutions": {
