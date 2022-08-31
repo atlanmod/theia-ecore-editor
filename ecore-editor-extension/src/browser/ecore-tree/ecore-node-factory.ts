@@ -17,6 +17,9 @@ import { EcoreModel } from './ecore-model';
 import { EcoreTreeEditorConstants } from './ecore-tree-editor-widget';
 import { EcoreTreeLabelProvider } from './ecore-tree-label-provider-contribution';
 import EEnumLiteral = EcoreModel.Type.EEnumLiteral;
+import { SmModel } from '../statemachines/sm-model';
+import StateMachine = SmModel.Type.StateMachine;
+import Region = SmModel.Type.Region;
 
 @injectable()
 export class EcoreTreeNodeFactory implements TreeEditor.NodeFactory {
@@ -86,11 +89,45 @@ export class EcoreTreeNodeFactory implements TreeEditor.NodeFactory {
                 this.mapData(element, node, 'eLiterals', idx);
             });
         }
+        if(data.statemachine) {
+            /*
+             * Hotfix: ModelServer does not return eClass for StateMachine.
+             */
+            data.eClass = StateMachine;
+            this.mapData(data.statemachine, node, 'stateMachine');
+        }
+        if(data.regions) {
+            data.regions.forEach((element: any, idx: number) => {
+                element.eClass = Region;
+                this.mapData(element, node, 'regions', idx);
+            });
+        }
+        if(data.eClass === SmModel.Type.Region && data.vertice) {
+            data.vertice.forEach((element: any, idx: number) => {
+                this.mapData(element, node, 'vertice', idx);
+            });
+        }
+        if(data.eClass === SmModel.Type.Region && data.transitions) {
+            data.transitions.forEach((element: any, idx: number) => {
+                element.eClass = SmModel.Type.Transition;
+                this.mapData(element, node, 'transitions', idx);
+            });
+        }
         return node;
     }
 
     hasCreatableChildren(node: TreeEditor.Node): boolean {
-        return node ? EcoreModel.childrenMapping.get(node.jsonforms.type) !== undefined : false;
+        if(node) {
+            const ecoreResult = EcoreModel.childrenMapping.get(node.jsonforms.type);
+            if(ecoreResult) {
+                return ecoreResult !== undefined;
+            } else {
+                const smResult = SmModel.childrenMapping.get(node.jsonforms.type);
+                return smResult !== undefined;
+            }
+        } else {
+            return false;
+        }
     }
 
     protected defaultNode(): Pick<
@@ -132,6 +169,13 @@ export class EcoreTreeNodeFactory implements TreeEditor.NodeFactory {
         if (data.eClass) {
             // eClass of node
             return data.eClass;
+        }
+
+        if(data["@id"].includes("statemachine")) {
+            return SmModel.Type.StateMachine;
+        }
+        if(data["@id"].includes("region")) {
+            return SmModel.Type.Region;
         }
         return undefined;
     }

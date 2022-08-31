@@ -24,6 +24,8 @@ import {
     ecoreSchema
 } from './ecore-schemas';
 import { Resolver } from './resolver';
+import { SmModel } from '../statemachines/sm-model';
+import { customSystemView, finalStateView, pseudoStateView, regionView, smSchema, stateMachineView, stateView, transitionView } from '../statemachines/sm-schema';
 
 @injectable()
 export class EcoreModelService implements TreeEditor.ModelService {
@@ -49,8 +51,13 @@ export class EcoreModelService implements TreeEditor.ModelService {
     }
 
     getSchemaForNode(node: TreeEditor.Node): JsonSchema7 {
+        /*
+         * We need to merge all the supported schemas into a single schema with all the definitions.
+         */
+        const def : JsonSchema7 = {'definitions': {}}
+        def.definitions = {...def.definitions, ...ecoreSchema.definitions, ...smSchema.definitions};
         return {
-            definitions: ecoreSchema.definitions,
+            definitions: def.definitions,
             ...this.getSubSchemaForNode(node)
         };
     }
@@ -71,9 +78,16 @@ export class EcoreModelService implements TreeEditor.ModelService {
         if (!type) {
             return undefined;
         }
-        const schema = (ecoreSchema.definitions ? Object.entries(ecoreSchema.definitions) : [])
-            .map(entry => entry[1])
-            .find((definition: JsonSchema7) => definition.properties && definition.properties.eClass.const === type);
+        const t = []
+        if(ecoreSchema.definitions) {
+            t.push(Object.entries(ecoreSchema.definitions))
+        }
+        if(smSchema.definitions) {
+            t.push(Object.entries(smSchema.definitions))
+        }
+        const schema = t
+            .flatMap(entry => entry.map(def => def[1]))
+            .find((definition: JsonSchema7) => definition.properties && definition.properties.eClass.const === type)
         if (!schema) {
             this.logger.warn("Can't find definition schema for type " + type);
         }
@@ -105,6 +119,20 @@ export class EcoreModelService implements TreeEditor.ModelService {
                 return eenumView;
             case EcoreModel.Type.EEnumLiteral:
                 return eenumliteralView;
+            case SmModel.Type.CustomSystem:
+                return customSystemView;
+            case SmModel.Type.StateMachine:
+                return stateMachineView;
+            case SmModel.Type.Region:
+                return regionView;
+            case SmModel.Type.PseudoState:
+                return pseudoStateView;
+            case SmModel.Type.State:
+                return stateView;
+            case SmModel.Type.FinalState:
+                return finalStateView;
+            case SmModel.Type.Transition:
+                return transitionView;
             default:
                 this.logger.warn("Can't find registered ui schema for type " + type);
                 return undefined;
@@ -112,10 +140,16 @@ export class EcoreModelService implements TreeEditor.ModelService {
     }
 
     getChildrenMapping(): Map<string, TreeEditor.ChildrenDescriptor[]> {
-        return EcoreModel.childrenMapping;
+        return new Map([...Array.from(EcoreModel.childrenMapping.entries()),
+            ...Array.from(SmModel.childrenMapping.entries())]);
     }
 
     getNameForType(eClass: string): string {
-        return EcoreModel.Type.name(eClass);
+        const result = EcoreModel.Type.name(eClass);
+        if(result) {
+            return result;
+        } else {
+            return SmModel.Type.name(eClass);
+        }
     }
 }

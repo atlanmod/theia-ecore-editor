@@ -15,6 +15,7 @@ import { injectable } from 'inversify';
 
 import { EcoreModel } from './ecore-model';
 import { EcoreTreeEditorConstants } from './ecore-tree-editor-widget';
+import { SmModel } from '../statemachines/sm-model';
 
 const DEFAULT_COLOR = 'black';
 
@@ -24,7 +25,15 @@ const ICON_CLASSES: Map<string, string> = new Map([
     [EcoreModel.Type.EReference, 'remote ' + DEFAULT_COLOR],
     [EcoreModel.Type.EAttribute, 'symbol-field ' + DEFAULT_COLOR],
     [EcoreModel.Type.EEnum, 'symbol-enum ' + DEFAULT_COLOR],
-    [EcoreModel.Type.EEnumLiteral, 'symbol-enum-member ' + DEFAULT_COLOR]
+    [EcoreModel.Type.EEnumLiteral, 'symbol-enum-member ' + DEFAULT_COLOR],
+    [SmModel.Type.CustomSystem, 'settings-gear ' + DEFAULT_COLOR],
+    [SmModel.Type.StateMachine, 'circuit-board ' + DEFAULT_COLOR],
+    [SmModel.Type.Region, 'bracket-dot ' + DEFAULT_COLOR],
+    // Circle not working here
+    [SmModel.Type.PseudoState, 'circle-filled ' + DEFAULT_COLOR],
+    [SmModel.Type.State, 'circle-large-filled ' + DEFAULT_COLOR],
+    [SmModel.Type.FinalState, 'circle-slash ' + DEFAULT_COLOR],
+    [SmModel.Type.Transition, 'arrow-swap ' + DEFAULT_COLOR]
 ]);
 
 /* Icon for unknown types */
@@ -62,6 +71,12 @@ export class EcoreTreeLabelProvider implements LabelProviderContribution {
                 case EcoreModel.Type.EAttribute:
                 case EcoreModel.Type.EEnum:
                 case EcoreModel.Type.EEnumLiteral:
+                case SmModel.Type.CustomSystem:
+                case SmModel.Type.StateMachine:
+                case SmModel.Type.Region:
+                case SmModel.Type.PseudoState:
+                case SmModel.Type.State:
+                case SmModel.Type.FinalState:
                     return data.name || this.getTypeName(data.eClass);
                 default:
                     // TODO query title of schema
@@ -75,6 +90,9 @@ export class EcoreTreeLabelProvider implements LabelProviderContribution {
         // ugly guess, fix in modelserver
         if (data.source && data.target) {
             return 'Flow';
+        }
+        if(data.name) {
+            return data.name;
         }
         return undefined;
     }

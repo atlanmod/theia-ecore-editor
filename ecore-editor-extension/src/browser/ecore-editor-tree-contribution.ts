@@ -41,7 +41,7 @@ export class EcoreTreeEditorContribution extends BaseTreeEditorContribution {
 
     canHandle(uri: URI): number {
         if (
-            ['.ecore'].includes(uri.path.ext)
+            ['.ecore', '.model'].includes(uri.path.ext)
         ) {
             return 1000;
         }
