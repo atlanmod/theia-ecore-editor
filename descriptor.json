@@ -1,0 +1,45 @@
+{
+	"version":1,
+	"models":[
+		{
+			"type":"url",
+			"url":"https://raw.githubusercontent.com/gdaniel/emf-cheatsheet/main/src/main/resources/graph_metamodel.ecore",
+			"name":"graph.ecore"
+		},
+		{
+			"type":"url",
+			"url":"https://raw.githubusercontent.com/ESEO-Tech/ATL-Tools-Library/57abcebab52eefc1382315dee41a9279644bcfe0/atlc/web/fr.eseo.atlc2tcsvg/resources/SVG.ecore",
+			"name": "svg.ecore"
+		},
+		{
+			"type": "url",
+			"url": "https://gitlab.univ-nantes.fr/naomod/faezeh-public/xtdl/-/raw/master/Language_Workbench/PSSM_Reactive/org.imt.pssm.reactive.model/model/statemachines.ecore",
+			"name": "pssm.ecore"
+		},
+		{
+			"type": "url",
+			"url": "https://gitlab.univ-nantes.fr/naomod/faezeh-public/xtdl/-/raw/master/Language_Workbench/xArduino_Reactive/org.imt.arduino.reactive.model/model/arduino.ecore",
+			"name": "arduino.ecore"
+		},
+		{
+			"type": "url",
+			"url": "https://gitlab.univ-nantes.fr/naomod/faezeh-public/xtdl/-/raw/master/Language_Workbench/xBPMN-ALE/org.imt.bpmn.model/model/BPMN.ecore",
+			"name": "bpmn.ecore"
+		},
+		{
+			"type": "url",
+			"url": "https://gitlab.univ-nantes.fr/naomod/faezeh-public/xtdl/-/raw/master/Language_Workbench/xFSM-K3/org.eclipse.gemoc.example.k3fsm/model/k3fsm.ecore",
+			"name": "fsm.ecore"
+		},
+		{
+			"type": "url",
+			"url": "https://gitlab.univ-nantes.fr/naomod/faezeh-public/xtdl/-/raw/master/Language_Workbench/xMiniJava/org.imt.xminijava.model/model/XMiniJava.ecore",
+			"name": "minijava.ecore"
+		},
+		{
+			"type": "url",
+			"url": "https://gitlab.univ-nantes.fr/naomod/faezeh-public/xtdl/-/raw/master/Modeling_Workbench/xPSSM_models/ATM.withdraw.model",
+			"name": "ATM.withdraw.model"
+		}
+	]
+}
