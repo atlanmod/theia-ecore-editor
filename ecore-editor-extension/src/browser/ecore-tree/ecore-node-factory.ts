@@ -161,7 +161,6 @@ export class EcoreTreeNodeFactory implements TreeEditor.NodeFactory {
 
     protected getType(type: string, data: any): string | undefined {
         // TODO: eClass should always be sent from server
-
         if (type) {
             // given eClass
             return type;
@@ -170,7 +169,6 @@ export class EcoreTreeNodeFactory implements TreeEditor.NodeFactory {
             // eClass of node
             return data.eClass;
         }
-
         if(data["@id"].includes("statemachine")) {
             return SmModel.Type.StateMachine;
         }

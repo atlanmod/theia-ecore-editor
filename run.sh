@@ -6,5 +6,7 @@ then
 	exit 1
 fi
 java -jar atlanmod-model-server.jar --r=workspace &
+
+
 cd /atlanmod-theia/browser-app
 yarn docker:start
